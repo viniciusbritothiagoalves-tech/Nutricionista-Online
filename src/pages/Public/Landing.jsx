@@ -31,22 +31,25 @@ function scrollToForm(location) {
 }
 
 function Index() {
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const [isFormActive, setIsFormActive] = useState(false);
 
-  const shouldBlur = isFormActive && isFormVisible;
+  const shouldBlur = isFormActive;
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsFormVisible(entry.isIntersecting);
-      },
-      { threshold: 0 }
-    );
-    const formElement = document.getElementById("triagem");
-    if (formElement) observer.observe(formElement);
-    return () => observer.disconnect();
-  }, []);
+    const handleManualScroll = () => {
+      if (isFormActive) {
+        setIsFormActive(false);
+      }
+    };
+
+    window.addEventListener('wheel', handleManualScroll, { passive: true });
+    window.addEventListener('touchmove', handleManualScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleManualScroll);
+      window.removeEventListener('touchmove', handleManualScroll);
+    };
+  }, [isFormActive]);
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-700">
