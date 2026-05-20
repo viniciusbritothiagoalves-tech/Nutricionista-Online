@@ -117,13 +117,7 @@ function Hero({ isFormActive, shouldBlur, onFormInteract }) {
       <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 pb-20 pt-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-20">
         <div className={`lg:pt-4 transition-all duration-700 ${shouldBlur ? 'blur-[4px] opacity-30 pointer-events-none' : ''}`}>
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-card px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary shadow-sm">
-              <MapPin className="h-3.5 w-3.5 text-gold" strokeWidth={2.4} />
-              Brasil
-            </span>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <h1 className="mt-5 font-display text-[2.5rem] font-semibold leading-[1.02] text-primary sm:text-5xl lg:text-[3.6rem]">
+            <h1 className="font-display text-[2.5rem] font-semibold leading-[1.02] text-primary sm:text-5xl lg:text-[3.6rem]">
               O cuidado com sua alimentação começa pela escolha{" "}
               <span className="relative inline-block italic">
                 <span className="relative z-10">certa</span>
