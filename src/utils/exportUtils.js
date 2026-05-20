@@ -28,8 +28,8 @@ const urgenciaMap = {
 };
 
 const modalidadeMap = {
-  online: 'Online',
-  indiferente: 'Indiferente'
+  online: 'Videochamada (Zoom/Meet)',
+  indiferente: 'Apenas WhatsApp'
 };
 
 const compromissoMap = {
