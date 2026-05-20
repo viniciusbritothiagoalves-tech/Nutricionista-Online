@@ -31,11 +31,23 @@ function scrollToForm(location) {
 }
 
 function Index() {
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const [isFormActive, setIsFormActive] = useState(false);
 
   const shouldBlur = isFormActive;
 
   useEffect(() => {
+    // Observer para esconder o MobileCTA quando o formulário está visível
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFormVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    const formElement = document.getElementById("triagem");
+    if (formElement) observer.observe(formElement);
+
+    // Lógica de desembaçamento manual por rolagem
     const handleManualScroll = () => {
       if (isFormActive) {
         setIsFormActive(false);
@@ -46,6 +58,7 @@ function Index() {
     window.addEventListener('touchmove', handleManualScroll, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('wheel', handleManualScroll);
       window.removeEventListener('touchmove', handleManualScroll);
     };
