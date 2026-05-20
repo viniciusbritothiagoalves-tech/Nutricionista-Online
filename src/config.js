@@ -14,7 +14,7 @@ export const CONFIG = {
   googleAds: {
     enabled: true,                   // Mude para true quando for rodar os anúncios reais
     gtagId: "AW-18082117538",           // ID da conta
-    conversionLabel: "2AaiCNztyK8cEKLvnK5D"    // Nova label da conversão "Lead Qualificado - Nutricionista Online"
+    conversionLabel: "B24HCODjwLAcEKLvnK5D"    // Nova label da conversão "Lead Qualificado - Nutricionista Online"
   },
 
   // Google Analytics 4
