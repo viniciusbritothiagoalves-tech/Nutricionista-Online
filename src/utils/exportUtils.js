@@ -49,56 +49,54 @@ const getLeadQualityLabel = (score) => {
 };
 
 export const exportToPDF = (leads, isIndividual = false) => {
-  const doc = new jsPDF('landscape');
+  const doc = new jsPDF('portrait');
   const dataExportacao = format(new Date(), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR });
 
-  doc.setFontSize(14);
+  doc.setFontSize(16);
   doc.setTextColor(27, 67, 50);
-  doc.text(`Relatório de Triagem de Potenciais Pacientes`, 14, 15);
+  doc.text(`Relatório de Triagem de Pacientes`, 14, 15);
   
-  doc.setFontSize(10);
+  doc.setFontSize(11);
   doc.setTextColor(100);
   doc.text(`Exportado em ${dataExportacao}`, 14, 22);
 
-  const tableColumn = ["Data/Hora", "Nome", "WhatsApp", "Objetivo", "Urg.", "Mod.", "Investimento", "Pront.", "Score", "LGPD"];
-  const tableRows = [];
-
-  leads.forEach(lead => {
-    const leadData = [
-      format(new Date(lead.timestamp), "dd/MM/yyyy HH:mm"),
-      lead.nome,
-      lead.whatsapp,
-      objMap[lead.objetivo] || lead.objetivo,
-      urgenciaMap[lead.urgencia] || lead.urgencia,
-      modalidadeMap[lead.modalidade] || lead.modalidade,
-      investimentoMap[lead.investimento] || lead.investimento,
-      compromissoMap[lead.compromisso] || lead.compromisso,
-      getLeadQualityLabel(lead.score),
-      lead.lgpdAceite ? 'Sim' : 'Não'
+  leads.forEach((lead, index) => {
+    const tableData = [
+      ['Paciente', lead.nome || 'N/A'],
+      ['Data da Triagem', lead.timestamp ? format(new Date(lead.timestamp), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR }) : 'N/A'],
+      ['WhatsApp', lead.whatsapp || 'N/A'],
+      ['Qualificação', getLeadQualityLabel(lead.score)],
+      ['Objetivo', objMap[lead.objetivo] || lead.objetivo || 'N/A'],
+      ['Urgência', urgenciaMap[lead.urgencia] || lead.urgencia || 'N/A'],
+      ['Modalidade', modalidadeMap[lead.modalidade] || lead.modalidade || 'N/A'],
+      ['Investimento', investimentoMap[lead.investimento] || lead.investimento || 'N/A'],
+      ['Prontidão', compromissoMap[lead.compromisso] || lead.compromisso || 'N/A'],
+      ['LGPD (Consentimento)', lead.lgpdAceite ? 'Sim' : 'Não']
     ];
-    tableRows.push(leadData);
-  });
 
-  autoTable(doc, {
-    head: [tableColumn],
-    body: tableRows,
-    startY: 28,
-    theme: 'grid',
-    styles: { fontSize: 8 },
-    headStyles: { fillColor: [27, 67, 50] },
-    willDrawCell: (data) => {
-      // Coluna do WhatsApp (índice 2) no corpo da tabela
-      if (data.section === 'body' && data.column.index === 2) {
-        doc.setTextColor(0, 102, 204); 
+    autoTable(doc, {
+      body: tableData,
+      startY: index === 0 ? 30 : doc.lastAutoTable.finalY + 10,
+      theme: 'grid',
+      styles: { fontSize: 11, cellPadding: 4 },
+      columnStyles: {
+        0: { fontStyle: 'bold', fillColor: [245, 245, 245], textColor: [27, 67, 50], cellWidth: 60 },
+        1: { textColor: [50, 50, 50] }
+      },
+      willDrawCell: (data) => {
+        // A linha do WhatsApp é a de índice 2 e a coluna de valor é a 1
+        if (data.row.index === 2 && data.column.index === 1) {
+          doc.setTextColor(0, 102, 204); 
+        }
+      },
+      didDrawCell: (data) => {
+        if (data.row.index === 2 && data.column.index === 1 && data.cell.raw !== 'N/A') {
+          const rawNumber = String(data.cell.raw).replace(/\D/g, '');
+          const link = `https://wa.me/55${rawNumber}`;
+          doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, { url: link });
+        }
       }
-    },
-    didDrawCell: (data) => {
-      if (data.section === 'body' && data.column.index === 2) {
-        const rawNumber = data.cell.raw.replace(/\D/g, '');
-        const link = `https://wa.me/55${rawNumber}`;
-        doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, { url: link });
-      }
-    }
+    });
   });
 
   const fileName = isIndividual ? `Potencial_Paciente_${leads[0].nome.replace(/\s+/g, '_')}.pdf` : `Potenciais_Pacientes_${format(new Date(), 'dd-MM-yyyy')}.pdf`;
