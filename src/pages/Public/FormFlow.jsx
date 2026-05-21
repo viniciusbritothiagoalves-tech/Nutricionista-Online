@@ -207,9 +207,31 @@ export const FormFlow = ({ onInteract }) => {
     }
   };
 
+  const isFormStarted = step > 1 || data.nome.trim().length > 0 || data.whatsapp.length > 0;
+
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(201,168,76,0.15)] px-4 py-5 sm:p-8 border-[1.5px] border-gold/10 relative overflow-hidden">
+      <motion.div 
+        animate={isFormStarted ? {
+          scale: 1,
+          boxShadow: "0px 20px 60px -15px rgba(201,168,76,0.15)",
+          borderColor: "rgba(201,168,76,0.1)"
+        } : { 
+          scale: [1, 1.02, 1],
+          boxShadow: [
+            "0px 20px 60px -15px rgba(201,168,76,0.2)",
+            "0px 30px 80px -10px rgba(201,168,76,0.8)",
+            "0px 20px 60px -15px rgba(201,168,76,0.2)"
+          ],
+          borderColor: [
+            "rgba(201,168,76,0.3)",
+            "rgba(201,168,76,1)",
+            "rgba(201,168,76,0.3)"
+          ]
+        }}
+        transition={isFormStarted ? { duration: 0.5 } : { duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        className="w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-[2rem] px-4 py-5 sm:p-8 border-[1.5px] relative overflow-hidden"
+      >
         {/* Decorator background */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-primary/80 to-gold"></div>
         <ProgressBar currentStep={step} totalSteps={stepNames.length} stepName={stepNames[step - 1]} />
@@ -225,7 +247,7 @@ export const FormFlow = ({ onInteract }) => {
             {renderStep()}
           </motion.div>
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   );
 };
