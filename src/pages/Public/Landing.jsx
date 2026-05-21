@@ -200,6 +200,7 @@ function TrustStrip() {
     { icon: ShieldCheck, t: "Sem custo para você" },
     { icon: Leaf, t: "Planos alimentares adaptáveis" },
     { icon: Activity, t: "Atendimento 100% online" },
+    { icon: Sparkles, t: "Foco em resultados reais" },
   ];
   return (
     <section className="border-y border-border bg-card/50">
