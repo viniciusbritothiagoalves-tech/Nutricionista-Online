@@ -411,7 +411,7 @@ function WhyNotGoogle() {
               <div className="relative">
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-gold/15 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-gold">
                   <Check className="h-3.5 w-3.5" strokeWidth={2.4} />
-                  Com a Nutricionista Online
+                  Com a nossa triagem inteligente
                 </div>
                 <ul className="space-y-3.5">
                   {solutions.map((p) => (

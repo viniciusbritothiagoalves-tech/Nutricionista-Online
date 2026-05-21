@@ -44,7 +44,7 @@ export const Step1 = ({ data, updateData, onNext }) => {
   return (
     <div>
       <h2 className="text-xl sm:text-3xl font-display font-bold text-primary tracking-tight mb-1 sm:mb-2 leading-tight">Vamos começar pela sua identificação</h2>
-      <p className="text-slate-500 text-[14px] sm:text-base mb-3 sm:mb-6 leading-tight">Seus dados são usados apenas para enviar sua indicação. Nada de spam.</p>
+      <p className="text-slate-500 text-[14px] sm:text-base mb-3 sm:mb-6 leading-tight">Seus dados são usados apenas para enviar sua indicação.</p>
 
       <div className="space-y-6">
         <div>
