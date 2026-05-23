@@ -35,7 +35,7 @@ export const FormFlow = ({ onInteract }) => {
       const formElement = document.getElementById("triagem");
       if (formElement) {
          // Ajusta o scroll com um pequeno offset para o header fixo não cobrir o form
-         const y = formElement.getBoundingClientRect().top + window.scrollY - 80;
+         const y = formElement.getBoundingClientRect().top + window.scrollY - 130;
          window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }

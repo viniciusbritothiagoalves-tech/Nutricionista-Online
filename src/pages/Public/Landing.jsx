@@ -31,7 +31,7 @@ function scrollToForm(location) {
   }
   const formElement = document.getElementById("triagem");
   if (formElement) {
-    const y = formElement.getBoundingClientRect().top + window.scrollY - 80;
+    const y = formElement.getBoundingClientRect().top + window.scrollY - 130;
     window.scrollTo({ top: y, behavior: "smooth" });
   }
 }
@@ -199,7 +199,7 @@ function TriagemSection({ isFormActive, onFormInteract }) {
         </Reveal>
         
         <Reveal delay={0.1}>
-          <div id="triagem" className="relative scroll-mt-20">
+          <div id="triagem" className="relative scroll-mt-32">
             <FormFlow onInteract={onFormInteract} />
           </div>
         </Reveal>
