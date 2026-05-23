@@ -30,7 +30,12 @@ export default function ImcCalculator({ onGoToForm }) {
 
     if (w > 0 && h > 0) {
       const result = w / (h * h);
-      setImc(result.toFixed(1));
+      const imcValue = result.toFixed(1);
+      setImc(imcValue);
+      
+      // Rastreamento para saber se o lead usou a calculadora
+      sessionStorage.setItem('nutri_conecta_imc_usado', 'true');
+      sessionStorage.setItem('nutri_conecta_imc_resultado', imcValue);
       
       if (result < 18.5) setCategory('abaixo');
       else if (result < 25) setCategory('normal');

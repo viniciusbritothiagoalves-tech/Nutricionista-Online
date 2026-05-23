@@ -130,7 +130,16 @@ export const FormFlow = ({ onInteract }) => {
     totalScore += scoreMap.prioridade_valor[finalData.prioridade_valor] || 0;
     totalScore += scoreMap.compromisso[finalData.compromisso] || 0;
 
-    const finalLead = { ...finalData, score: totalScore, origem: 'nutricionista-online' };
+    const usouImc = sessionStorage.getItem('nutri_conecta_imc_usado') === 'true';
+    const resultadoImc = sessionStorage.getItem('nutri_conecta_imc_resultado') || null;
+
+    const finalLead = { 
+      ...finalData, 
+      score: totalScore, 
+      origem: 'nutricionista-online',
+      usou_calculadora_imc: usouImc,
+      resultado_imc: resultadoImc
+    };
 
     if (totalScore >= CONFIG.scoreMinimo) {
       try {

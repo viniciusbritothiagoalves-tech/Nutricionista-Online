@@ -263,8 +263,13 @@ export const LeadsTable = ({ leads, onRefresh, isTrash = false, titleOverride })
                       </span>
                     )}
                     {lead.lgpdAceite && (
-                      <span className="inline-flex items-center mt-1 text-[10px] font-semibold text-green-700 bg-green-100 px-1.5 py-0.5 rounded">
+                      <span className="inline-flex items-center mt-1 mr-2 text-[10px] font-semibold text-green-700 bg-green-100 px-1.5 py-0.5 rounded">
                         ✅ LGPD
+                      </span>
+                    )}
+                    {lead.usou_calculadora_imc && (
+                      <span className="inline-flex items-center mt-1 text-[10px] font-semibold text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded" title="Utilizou a calculadora de IMC antes da triagem">
+                        🧮 IMC: {lead.resultado_imc}
                       </span>
                     )}
                   </td>
