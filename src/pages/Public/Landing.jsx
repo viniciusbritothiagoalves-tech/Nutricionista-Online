@@ -29,7 +29,11 @@ function scrollToForm(location) {
   if (typeof location === 'string') {
     trackEvent('clique_botao_iniciar_triagem', { section: location });
   }
-  document.getElementById("triagem")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const formElement = document.getElementById("triagem");
+  if (formElement) {
+    const y = formElement.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
 }
 
 function Index() {
@@ -177,7 +181,7 @@ function Hero() {
 
 function TriagemSection({ isFormActive, onFormInteract }) {
   return (
-    <section id="triagem" className={`relative py-14 sm:py-20 bg-secondary/30 border-y border-border transition-all duration-700 ${isFormActive ? 'z-50' : ''}`}>
+    <section id="triagem" className={`relative py-14 sm:py-20 bg-secondary/30 border-y border-border transition-all duration-700 scroll-mt-24 sm:scroll-mt-28 ${isFormActive ? 'z-50' : ''}`}>
       <div className="mx-auto max-w-3xl px-6 relative z-10">
         <Reveal>
           <div className="text-center mb-10">
