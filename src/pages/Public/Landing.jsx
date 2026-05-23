@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
   Apple,
   Activity,
+  ArrowRight,
   CalendarCheck,
   Check,
   ChevronDown,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 import Reveal from "../../components/ui/Reveal";
 import { FormFlow } from "../Public/FormFlow";
+import ImcCalculator from "./components/ImcCalculator";
 import { trackEvent } from "../../services/analytics";
 
 function scrollToForm(location) {
@@ -67,11 +69,17 @@ function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-700">
       <Header shouldBlur={shouldBlur} />
-      <Hero isFormActive={isFormActive} shouldBlur={shouldBlur} onFormInteract={setIsFormActive} />
       <div className={`transition-all duration-700 ${shouldBlur ? 'blur-[4px] opacity-30 pointer-events-none' : ''}`}>
+        <Hero />
         <TrustStrip />
         <HowItWorks />
         <WhoFor />
+        <ImcCalculator onGoToForm={() => scrollToForm('imc_calculator')} />
+      </div>
+      
+      <TriagemSection isFormActive={isFormActive} onFormInteract={setIsFormActive} />
+
+      <div className={`transition-all duration-700 ${shouldBlur ? 'blur-[4px] opacity-30 pointer-events-none' : ''}`}>
         <WhyNotGoogle />
         <FAQ />
         <FinalCTA />
@@ -109,10 +117,10 @@ function Header({ shouldBlur }) {
   );
 }
 
-function Hero({ isFormActive, shouldBlur, onFormInteract }) {
+function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className={`absolute inset-0 -z-10 transition-all duration-700 ${shouldBlur ? 'blur-[4px] opacity-60 pointer-events-none' : ''}`}>
+      <div className="absolute inset-0 -z-10 transition-all duration-700">
         <div
           className="absolute inset-0"
           style={{
@@ -130,63 +138,64 @@ function Hero({ isFormActive, shouldBlur, onFormInteract }) {
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 pb-20 pt-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-20">
-        <div className={`lg:pt-4 transition-all duration-700 ${shouldBlur ? 'blur-[4px] opacity-30 pointer-events-none' : ''}`}>
-          <Reveal>
-            <h1 className="font-display text-[2.5rem] font-semibold leading-[1.02] text-primary sm:text-5xl lg:text-[3.6rem]">
-              O cuidado com sua alimentação começa pela escolha{" "}
-              <span className="relative inline-block italic">
-                <span className="relative z-10">certa</span>
-                <span className="absolute inset-x-0 bottom-1 -z-0 h-3 bg-gold/45" />
-              </span>
-              .
-            </h1>
-          </Reveal>
-          <Reveal delay={0.16}>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Conectamos você ao profissional de nutrição ideal para o seu objetivo em
-              todo o Brasil. Uma triagem rápida, gratuita e sem compromisso.
-            </p>
-          </Reveal>
-          <Reveal delay={0.24}>
-            <ul className="mt-7 space-y-2.5 text-sm text-foreground/85 sm:text-[15px]">
-              {[
-                { icon: Stethoscope, t: "Profissionais com atendimento 100% online por videochamada" },
-                { icon: Clock, t: "Resposta no WhatsApp em até 24 horas" },
-              ].map(({ icon: Icon, t }) => (
-                <li key={t} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <Icon className="h-3.5 w-3.5" strokeWidth={2.2} />
-                  </span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-          <Reveal delay={0.32}>
-            <div className="mt-8 hidden items-center gap-3 lg:flex">
-              <button
-                onClick={() => scrollToForm('hero_desktop')}
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition hover:scale-[1.02] hover:bg-primary/90"
-              >
-                Quero minha indicação
-                <Sparkles className="h-4 w-4" />
-              </button>
-              <span className="text-xs text-muted-foreground">
-                Leva menos de 1 minuto · 100% gratuito
-              </span>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* FORMULÁRIO EM DESTAQUE */}
+      <div className="mx-auto max-w-4xl px-6 pb-20 pt-16 lg:pt-28 text-center relative z-10">
         <Reveal delay={0.1}>
-          <div id="triagem" className={`lg:sticky lg:top-24 transition-all duration-700 ${isFormActive ? 'relative z-50' : ''}`}>
-            <div className="mb-4 text-center lg:text-left px-2">
-              <p className="text-sm text-muted-foreground/90 font-medium">
-                Responda rápido para encontrarmos seu profissional ideal:
-              </p>
+          <h1 className="font-display text-[2.5rem] font-semibold leading-[1.05] text-primary sm:text-5xl lg:text-[4rem]">
+            O cuidado com sua alimentação começa pela escolha{" "}
+            <span className="relative inline-block italic">
+              <span className="relative z-10">certa</span>
+              <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-gold/45" />
+            </span>
+            .
+          </h1>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
+            Conectamos você ao profissional de nutrição ideal para o seu objetivo em
+            todo o Brasil. Uma triagem rápida, gratuita e sem compromisso.
+          </p>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <button
+              onClick={() => scrollToForm('hero_desktop')}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-semibold text-primary-foreground transition-all hover:scale-[1.02] hover:bg-primary/90 shadow-lg"
+            >
+              Quero minha indicação
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <Clock className="h-4 w-4" />
+              Leva menos de 1 minuto
             </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function TriagemSection({ isFormActive, onFormInteract }) {
+  return (
+    <section id="triagem" className={`relative py-14 sm:py-20 bg-secondary/30 border-y border-border transition-all duration-700 ${isFormActive ? 'z-50' : ''}`}>
+      <div className="mx-auto max-w-3xl px-6 relative z-10">
+        <Reveal>
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-primary mb-3">
+              <Check className="h-3.5 w-3.5" />
+              Sua Indicação
+            </span>
+            <h2 className="font-display text-3xl font-semibold text-primary sm:text-4xl">
+              Vamos encontrar o nutricionista ideal
+            </h2>
+            <p className="mx-auto mt-3 text-muted-foreground">
+              Responda algumas perguntas rápidas para direcionarmos você ao profissional certo.
+            </p>
+          </div>
+        </Reveal>
+        
+        <Reveal delay={0.1}>
+          <div className="relative">
             <FormFlow onInteract={onFormInteract} />
           </div>
         </Reveal>
@@ -329,20 +338,6 @@ function WhoFor() {
             </Reveal>
           ))}
         </div>
-        <Reveal delay={0.2}>
-          <div className="mt-12 flex flex-col items-center gap-3">
-            <button
-              onClick={() => scrollToForm('who_for')}
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition hover:scale-[1.02]"
-            >
-              <Sparkles className="h-4 w-4" />
-              Quero receber minha indicação
-            </button>
-            <span className="text-xs text-muted-foreground">
-              Sem custo · Sem compromisso
-            </span>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
