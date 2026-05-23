@@ -31,7 +31,7 @@ function scrollToForm(location) {
   }
   const formElement = document.getElementById("triagem");
   if (formElement) {
-    const y = formElement.getBoundingClientRect().top + window.scrollY - 100;
+    const y = formElement.getBoundingClientRect().top + window.scrollY - 80;
     window.scrollTo({ top: y, behavior: "smooth" });
   }
 }
@@ -181,7 +181,7 @@ function Hero() {
 
 function TriagemSection({ isFormActive, onFormInteract }) {
   return (
-    <section id="triagem" className={`relative py-14 sm:py-20 bg-secondary/30 border-y border-border transition-all duration-700 scroll-mt-24 sm:scroll-mt-28 ${isFormActive ? 'z-50' : ''}`}>
+    <section className={`relative py-14 sm:py-20 bg-secondary/30 border-y border-border transition-all duration-700 ${isFormActive ? 'z-50' : ''}`}>
       <div className="mx-auto max-w-3xl px-6 relative z-10">
         <Reveal>
           <div className="text-center mb-10">
@@ -199,7 +199,7 @@ function TriagemSection({ isFormActive, onFormInteract }) {
         </Reveal>
         
         <Reveal delay={0.1}>
-          <div className="relative">
+          <div id="triagem" className="relative scroll-mt-20">
             <FormFlow onInteract={onFormInteract} />
           </div>
         </Reveal>
